@@ -1,0 +1,53 @@
+<br>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <button (click)="Logout()" style="float:right">Logout</button>
+                
+                <h4 *ngIf="!isAdmin" class="title">Task List</h4>
+                
+
+                <h4 *ngIf="isAdmin" class="title">Create new task</h4>
+                <input *ngIf="isAdmin"  type="text" [(ngModel)] = "taskName">
+                <button *ngIf="isAdmin"  (click)="AddTask()">Add</button>
+
+                
+            </div>
+            <div class="card-body" style="overflow-x: auto;">
+              <div class="scroll">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Status</th>
+                      <th *ngIf="isAdmin" >Action</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tasks">
+                      
+                      <td>{{item.name}}</td>
+                      
+                      <td>
+                        <select [disabled]="item.status == TaskStatus.Done" #select [(ngModel)]="item.status" (change)='onChangeTaskStatus(item.id, $event)'  >
+                          <option [ngValue]="TaskStatus.Pending" >{{TaskStatus.Pending}}</option>
+                          <option [ngValue]="TaskStatus.Done" >{{TaskStatus.Done}}</option>
+                        </select>
+                      </td>
+                      
+                      <td *ngIf="isAdmin" >
+                          <button (click)='DeleteTask(item.id)'>
+                            Delete
+                          </button>
+                      </td>
+          
+                    </tr>
+                  </tbody>
+              </table>
+              </div>
+              
+        
+            <br>
+            </div>
+        </div>
+    </div>
